@@ -4,10 +4,11 @@ import {
   inject,
   input,
   REQUEST,
-  resource,
 } from '@angular/core';
 import { JsonPipe } from '@angular/common';
 import { HelloDto } from '../models/helloDto';
+import { HttpClient } from '@angular/common/http';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,14 +29,16 @@ export default class Home {
   name = input<string>();
 
   request = inject(REQUEST);
+  httpClient = inject(HttpClient);
 
-  helloResource = resource({
+  helloResource = rxResource({
     request: () => this.name,
-    loader: async ({ request, abortSignal }) => {
+    loader: ({ request }) => {
       const name = request();
-      const params = name ? `?name=${name}` : '';
-      const res = await fetch(`/api/hello${params}`, { signal: abortSignal });
-      return (await res.json()) as HelloDto;
+      return this.httpClient.get<HelloDto>(
+        '/api/hello',
+        name ? { params: { name } } : {},
+      );
     },
   });
 }

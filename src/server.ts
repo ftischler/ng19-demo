@@ -37,7 +37,7 @@ async function bootstrap() {
     }),
   );
 
-  app.use('/**', (req, res, next) => {
+  app.use(/^\/(?!api).*/, (req, res, next) => {
     angularApp
       .handle(req)
       .then((response) => {
