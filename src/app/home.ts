@@ -28,6 +28,7 @@ export default class Home {
   name = input<string>();
 
   request = inject(REQUEST);
+
   httpClient = inject(HttpClient);
 
   helloResource = rxResource({
