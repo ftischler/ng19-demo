@@ -20,7 +20,6 @@ import { rxResource } from '@angular/core/rxjs-interop';
     @if (helloResource.value(); as hello) {
       <pre>{{ hello | json }}</pre>
     }
-    <pre>{{ request | json }}</pre>
   `,
   selector: 'home',
   imports: [JsonPipe],
@@ -41,4 +40,14 @@ export default class Home {
       );
     },
   });
+
+  constructor() {
+    if (this.request) {
+      console.log('I am on the server!');
+      console.log(
+        'Headers: ',
+        Object.fromEntries(this.request.headers.entries()),
+      );
+    }
+  }
 }
