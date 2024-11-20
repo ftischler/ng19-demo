@@ -12,13 +12,14 @@ import { HelloDto } from '../models/helloDto';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <button type="button" (click)="logRequest()">Log Request</button>
+    This part is rendered on the server
     @if (helloResource.isLoading()) {
       <p>Loading...</p>
     }
     @if (helloResource.value(); as hello) {
       <pre>{{ hello | json }}</pre>
     }
+    <pre>{{ request | json }}</pre>
   `,
   selector: 'home',
   imports: [JsonPipe],
@@ -26,7 +27,7 @@ import { HelloDto } from '../models/helloDto';
 export default class Home {
   name = input<string>();
 
-  private request = inject(REQUEST);
+  request = inject(REQUEST);
 
   helloResource = resource({
     request: () => this.name,
@@ -37,8 +38,4 @@ export default class Home {
       return (await res.json()) as HelloDto;
     },
   });
-
-  logRequest() {
-    console.log(this.request);
-  }
 }
