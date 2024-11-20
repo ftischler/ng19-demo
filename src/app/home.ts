@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
-  Injector,
   input,
   REQUEST,
   resource,
